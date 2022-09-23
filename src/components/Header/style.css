@@ -6,6 +6,10 @@ header {
     justify-content: space-between;
     align-items: center;
 }
+.header__menu {
+    display: flex;
+    gap: 20px;
+}
 @media (min-width: 1260px) {
     header {
         padding-left: calc(50% - 600px);
