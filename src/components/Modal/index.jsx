@@ -11,18 +11,45 @@ export default ({state, auth, updState}) => {
 
     const handler = e => {
         e.preventDefault();
-        let body = {};
-        body.email = email;
-        body.pwd = pwd;
-        if (!auth) {
-            body.name = name;
-        }
-        console.log(body);
-        setEmail("");
-        setName("");
-        setPwd("");
-        setPwd2("");
-        updState(false);
+        if (auth) {
+            let user = db.filter(rec => rec.email === email && rec.pwd === pwd)[0];
+            if (user) {
+                updUName(user.name);
+                updUId(db.findIndex(rec => rec.email === email && rec.pwd === pwd));
+                setEmail("");
+                setName("");
+                setPwd("");
+                setPwd2("");
+                updState(false);
+            } else {
+                alert("Неверные данные пользователя");
+            }
+        } else {
+            let index = db.findIndex(rec => rec.email === email);
+            if (index === -1) {
+                updDb([...db, {
+                    name: name,
+                    pwd: pwd,
+                    email: email
+                }])
+                localStorage.setItem("db", JSON.stringify([...db, {
+                    name: name,
+                    pwd: pwd,
+                    email: email
+                }]))
+                updUName(name)
+                localStorage.setItem("userName", name);
+                updUId(db.length);
+                localStorage.setItem("userId", db.length);
+                setEmail("");
+                setName("");
+                setPwd("");
+                setPwd2("");
+                updState(false);
+            } else {
+                alert("Такой пользователь уже есть");
+            }
+        }        
     }
 
     return <div className="modal__container" style={{
