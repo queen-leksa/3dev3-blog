@@ -27,8 +27,8 @@ export default () => {
                     setModalAuth(false);
                 }}
             >Sign up</a>}
-            {userName && <a>{userName}</a>}
-            {userName && <a>Log Out</a>}
+            {userName && <a href="/">{userName}</a>}
+            {userName && <a href="/">Log Out</a>}
         </nav>
         {<Modal state={modalView} auth={modalAuth} updState={setModal}/>}
     </header>

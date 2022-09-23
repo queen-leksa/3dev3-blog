@@ -1,4 +1,5 @@
-import React, {useState} from "react";
+import React, {useState, useContext} from "react";
+import {Ctx} from "../../App";
 import "./style.css";
 
 export default ({state, auth, updState}) => {
@@ -6,14 +7,30 @@ export default ({state, auth, updState}) => {
     const [email, setEmail] = useState("");
     const [pwd, setPwd] = useState("");
     const [pwd2, setPwd2] = useState("");
+    const {db, updDb, updUName, updUId} = useContext(Ctx);
 
+    const handler = e => {
+        e.preventDefault();
+        let body = {};
+        body.email = email;
+        body.pwd = pwd;
+        if (!auth) {
+            body.name = name;
+        }
+        console.log(body);
+        setEmail("");
+        setName("");
+        setPwd("");
+        setPwd2("");
+        updState(false);
+    }
 
     return <div className="modal__container" style={{
         display: state ? "flex" : "none"
     }}>
         <div className="modal">
             <h2>{auth ? "Войти" : "Зарегистрироваться"}</h2>
-            <form>
+            <form onSubmit={handler}>
                 {/* 
                     Почта - уникальный логин
                     Имя (регистрация)
@@ -54,7 +71,13 @@ export default ({state, auth, updState}) => {
                     {auth ? "Войти" : "Зарегистрироваться"}
                 </button>
             </form>
-            <button type="button" onClick={() =>{updState(!state)}}>close</button>
+            <button type="button" onClick={() =>{
+                updState(!state)
+                setEmail("");
+                setName("");
+                setPwd("");
+                setPwd2("");
+            }}>close</button>
         </div>
     </div>
 }
