@@ -29,7 +29,7 @@ export default ({state, auth, updState}) => {
                 />
                 {!auth && <input 
                     type="text"
-                    name="user"
+                    name="name"
                     value={name}
                     placeholder="Имя пользователя"
                     onChange={(e) => {setName(e.target.value)}}
