@@ -7,11 +7,12 @@ export default ({state, auth, updState}) => {
     const [email, setEmail] = useState("");
     const [pwd, setPwd] = useState("");
     const [pwd2, setPwd2] = useState("");
+    const [authType, setAuthType] = useState(auth);
     const {db, updDb, updUName, updUId} = useContext(Ctx);
 
     const handler = e => {
         e.preventDefault();
-        if (auth) {
+        if (authType) {
             let user = db.filter(rec => rec.email === email && rec.pwd === pwd)[0];
             if (user) {
                 updUName(user.name);
@@ -52,11 +53,13 @@ export default ({state, auth, updState}) => {
         }        
     }
 
+    const changeAuthType = e => setAuthType(!authType);
+
     return <div className="modal__container" style={{
         display: state ? "flex" : "none"
     }}>
         <div className="modal">
-            <h2>{auth ? "Войти" : "Зарегистрироваться"}</h2>
+            <h2>{authType ? "Войти" : "Зарегистрироваться"}</h2>
             <form onSubmit={handler}>
                 {/* 
                     Почта - уникальный логин
@@ -71,7 +74,7 @@ export default ({state, auth, updState}) => {
                     value={email}
                     onChange={(e) => {setEmail(e.target.value)}}
                 />
-                {!auth && <input 
+                {!authType && <input 
                     type="text"
                     name="name"
                     value={name}
@@ -85,7 +88,7 @@ export default ({state, auth, updState}) => {
                     value={pwd}
                     onChange={(e) => {setPwd(e.target.value)}}
                 />
-                {!auth && <input 
+                {!authType && <input 
                     type="password"
                     placeholder="Повторить пароль"
                     value={pwd2}
@@ -93,9 +96,9 @@ export default ({state, auth, updState}) => {
                 />}
                 <button 
                     type="submit"
-                    disabled={!auth && (!pwd || !pwd2 || pwd !== pwd2)}
+                    disabled={!authType && (!pwd || !pwd2 || pwd !== pwd2)}
                 >
-                    {auth ? "Войти" : "Зарегистрироваться"}
+                    {authType ? "Войти" : "Зарегистрироваться"}
                 </button>
             </form>
             <button type="button" onClick={() =>{
@@ -105,6 +108,7 @@ export default ({state, auth, updState}) => {
                 setPwd("");
                 setPwd2("");
             }}>close</button>
+            <button type="button" onClick={changeAuthType}>{authType ? "Зарегистрироваться" : "Войти"}</button>
         </div>
     </div>
 }

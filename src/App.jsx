@@ -2,7 +2,8 @@ import React, {createContext, useState} from "react";
 import Header from "./components/Header";
 import Main from "./components/Main";
 import Footer from "./components/Footer";
-import posts from "./data/posts.json";
+// import posts from "./data/posts.json";
+import Api from "./api";
 
 export const Ctx = createContext({});
 export const App = () => {
@@ -17,6 +18,7 @@ export const App = () => {
         db: db,
         userId: userId,
         userName: userName,
+        api: new Api(),
         updDb: updDb,
         updUId: setUserId,
         updUName: setUserName
