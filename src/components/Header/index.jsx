@@ -6,12 +6,21 @@ import {Ctx} from "../../App";
 export default () => {
     const [modalView, setModal] = useState(false);
     const [modalAuth, setModalAuth] = useState(true);
-    const {userName} = useContext(Ctx);
+    const {userId, userName, updUId, updUName} = useContext(Ctx);
+
+    const logOut = (e) => {
+        e.preventDefault();
+        updUId("");
+        updUName("");
+        localStorage.removeItem("userId"); 
+        localStorage.removeItem("author"); 
+    }
+
     return <header>
         <a href="/" className="header__logo">DevsBlog</a>
         <nav className="header__menu">
             <a href="/" className="header__btn">Create post</a>
-            {!userName && <a href="/" 
+            {!userId && <a href="/" 
                 className="header__btn" 
                 onClick={(e) => {
                     e.preventDefault();
@@ -19,7 +28,7 @@ export default () => {
                     setModalAuth(true);
                 }}
             >Sign in</a>}
-            {!userName && <a href="/" 
+            {!userId && <a href="/" 
                 className="header__btn" 
                 onClick={(e) => {
                     e.preventDefault();
@@ -27,8 +36,8 @@ export default () => {
                     setModalAuth(false);
                 }}
             >Sign up</a>}
-            {userName && <a href="/">{userName}</a>}
-            {userName && <a href="/">Log Out</a>}
+            {userId && <a href="/">{userName}</a>}
+            {userId && <a href="/" onClick={logOut}>Log Out</a>}
         </nav>
         {<Modal state={modalView} auth={modalAuth} updState={setModal}/>}
     </header>
