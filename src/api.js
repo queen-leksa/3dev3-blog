@@ -13,7 +13,7 @@
 
 class Api {
     constructor() {
-        this.url = "https://ithub-blog.herokuapp.com/api/"
+        this.url = "https://srv.petiteweb.dev/api/blog/"
     }
     getUsers() {
         return fetch(`${this.url}users`)
